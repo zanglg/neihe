@@ -1,0 +1,12 @@
+[package]
+name = "neihe"
+version = "0.1.0"
+edition = "2021"
+authors = ["Zang Leigang <zang.lg@outlook.com>"]
+readme = "README.md"
+repository = "https://github.com/zanglg/neihe/"
+license-file = "LICENSE"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
