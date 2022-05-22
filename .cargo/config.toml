@@ -1,0 +1,6 @@
+[target.aarch64-unknown-none]
+rustflags = ["-C", "link-arg=-Tsrc/arch/aarch64/kernel.ld", "-C", "panic=abort"]
+
+
+[build]
+target = "aarch64-unknown-none"
