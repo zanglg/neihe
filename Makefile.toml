@@ -10,7 +10,7 @@ args = [
   "cortex-a53",
   "-nographic",
   "-kernel",
-  "target/${CARGO_MAKE_CRATE_CUSTOM_TRIPLE_TARGET_DIRECTORY}/debug/neihe.bin",
+  "target/${CARGO_MAKE_CRATE_TARGET_TRIPLE}/debug/neihe.bin",
 ]
 dependencies = ["binary"]
 
@@ -32,7 +32,7 @@ args = [
   "--",
   "-O",
   "binary",
-  "target/${CARGO_MAKE_CRATE_CUSTOM_TRIPLE_TARGET_DIRECTORY}/debug/neihe.bin",
+  "target/${CARGO_MAKE_CRATE_TARGET_TRIPLE}/debug/neihe.bin",
 ]
 
 # List all symbols in an executable
