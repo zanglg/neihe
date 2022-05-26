@@ -1,0 +1,51 @@
+# Emulator with qemu
+[tasks.run]
+command = "qemu-system-aarch64"
+args = [
+  "-machine",
+  "virt",
+  "-m",
+  "1024M",
+  "-cpu",
+  "cortex-a53",
+  "-nographic",
+  "-kernel",
+  "target/${CARGO_MAKE_CRATE_CUSTOM_TRIPLE_TARGET_DIRECTORY}/debug/neihe.bin",
+]
+dependencies = ["binary"]
+
+# Cleanup
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+# Build debug target
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+# Transform the output of Cargo (ELF) into binary format
+[tasks.binary]
+command = "cargo"
+args = [
+  "objcopy",
+  "--",
+  "-O",
+  "binary",
+  "target/${CARGO_MAKE_CRATE_CUSTOM_TRIPLE_TARGET_DIRECTORY}/debug/neihe.bin",
+]
+
+# List all symbols in an executable
+[tasks.nm]
+command = "cargo"
+args = ["nm", "--", "--numeric-sort", "--print-size"]
+
+# Disassemble a binary
+[tasks.asm]
+command = "cargo"
+args = ["objdump", "--", "--disassemble"]
+
+# Print binary size in System V format
+[tasks.size]
+command = "cargo"
+args = ["size", "--", "-A", "-x"]
