@@ -73,6 +73,36 @@ init_el2:
 
 	// TODO
 __cpu_setup:
+	// Invalidate local TLB
+	tlbi vmalle1
+	dsb  nsh
+
+	// Enable FP/ASIMD
+	mov x0, #3 << 20
+	msr cpacr_el1, x0
+
+	// Reset mdscr_el1 and disable access to the DCC from EL0
+	mov x0, #1 << 12
+	msr mdscr_el1, x0
+	isb
+
+	// MAIR_ELx memory attributes
+	//
+	// MAIR_ATTR_DEVICE_nGnRnE      UL(0x00)
+	// MAIR_ATTR_DEVICE_nGnRE       UL(0x04)
+	// MAIR_ATTR_NORMAL_NC          UL(0x44)
+	// MAIR_ATTR_NORMAL_TAGGED      UL(0xf0)
+	// MAIR_ATTR_NORMAL             UL(0xff)
+	// MAIR_ATTR_MASK               UL(0xff)
+	//
+	// MT_NORMAL		            0
+	// MT_NORMAL_TAGGED	            1
+	// MT_NORMAL_NC		            2
+	// MT_DEVICE_nGnRnE	            3
+	// MT_DEVICE_nGnRE	            4
+	ldr x0, =0x040044f0ff
+	msr mair_el1, x0
+
 	ret
 
 __primary_switched:
