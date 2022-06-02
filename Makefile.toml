@@ -7,7 +7,7 @@ args = [
   "-m",
   "1024M",
   "-cpu",
-  "cortex-a53",
+  "cortex-a72",
   "-nographic",
   "-kernel",
   "target/${CARGO_MAKE_CRATE_TARGET_TRIPLE}/debug/neihe.bin",
