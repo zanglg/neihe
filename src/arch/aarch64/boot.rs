@@ -7,7 +7,7 @@ pub extern "C" fn rust_main() -> ! {
     let hello = b"Hello, world!";
     for byte in hello {
         unsafe {
-            ptr::write_volatile(0x0900_0000 as *mut u8, *byte);
+            ptr::write_volatile(0xffff_ff80_0900_0000 as *mut u8, *byte);
         }
     }
     loop {}
