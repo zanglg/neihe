@@ -103,6 +103,25 @@ __cpu_setup:
 	ldr x0, =0x040044f0ff
 	msr mair_el1, x0
 
+	// Translation Control Register, EL1
+	// TCR_T0SZ       - BIT[5:0]   - 25   - Size offset of the memory region addressed by TTBR0
+	// TCR_IRGN0_WBWA - BIT[9:8]   - 0x1  - Normal memory, Inner Write-Back Write-Allocate Cacheable.
+	// TCR_ORGN0_WBWA - BIT[11:10] - 0x1  - Normal memory, Outer Write-Back Write-Allocate Cacheable.
+	// TCR_SH0_INNER  - BIT[13:12] - 0x11 - Inner Shareable for memory associated with TTW using TTBR0
+	// TCR_TG0_4K     - BIT[14]    - 0x0  - Page Size is 4KB
+	// TCR_T1SZ       - BIT[21:16] - 25   - Size offset of the memory region addressed by TTBR1
+	// TCR_A1         - BIT[22]    - 0x1  - Use ASID defined in TTBR1
+	// TCR_IRGN1_WBWA - BIT[25:24] - 0x1  - Normal memory, Inner Write-Back Write-Allocate Cacheable.
+	// TCR_ORGN1_WBWA - BIT[27:26] - 0x1  - Normal memory, Outer Write-Back Write-Allocate Cacheable.
+	// TCR_SH1_INNER  - BIT[29:28] - 0x11 - Inner Shareable for memory associated with TTW using TTBR1
+	// TCR_TG1_4K     - BIT[30]    - 0x0  - Page Size is 4KB
+	// TCR_TG1_4K     - BIT[31]    - 0x1  - RES1
+	// TCR_IPS        - BIT[34:32] - 0x0  - 4GB, Intermediate Physical Address Size
+	// TCR_ASID16     - BIT[36]    - 0x1  - ADID bit size 16
+	// TCR_TBI0       - BIT[37]    - 0x1  - Ignore top byte of address match for the TTBR0 region
+	ldr x0, =0x03095591519
+	msr tcr_el1, x0
+
 	ret
 
 __primary_switched:
