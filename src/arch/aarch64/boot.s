@@ -13,6 +13,7 @@ _start:
 
 primary_entry:
 	bl init_kernel_el
+	bl __create_pagetable
 	bl __cpu_setup
 	b  __primary_switched
 
@@ -124,15 +125,49 @@ __cpu_setup:
 
 	ret
 
+__create_pagetable:
+	adr x0, __kernel_pagetable_l1
+	msr ttbr0_el1, x0
+	msr ttbr1_el1, x0
+	isb
+
+	ret
+
 __primary_switched:
 	// setup bootstack
-	adr x0, __kernel_start
+	ldr x0, =__kernel_start
 	mov sp, x0
 
+	// Set [M] bit and enable the MMU
+	mrs x0, sctlr_el1
+	orr x0, x0, #1
+	msr sctlr_el1, x0
+	isb
+
 	// goto rust world
-	b rust_main
+	ldr x8, =rust_main
+	br  x8
 
 	// unreachable
 halt:
 	wfe
 	b halt
+
+	.section .data
+	.balign  4096
+
+__kernel_pagetable_l1:
+	// Block Mapping
+	// MT_DEVICE_nGnRnE
+	// Non-Secure access control
+	// Access Flag
+	// Unprivileged and Privileged eXecute Never (UXN and PXN)
+	.quad 0x006000000000040D
+
+	// Block Mapping
+	// MT_NORMAL
+	// Non-Secure access control
+	// Inner Shareable
+	// Access Flag
+	// Unprivileged eXecute Never (UXN)
+	.quad 0x0040000040000721
