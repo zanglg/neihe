@@ -9,22 +9,31 @@ SECTIONS
         __text_start = .;
         *(.text.boot)
         *(.text .text.*)
-        . = ALIGN(4K);
+        __text_end = .;
     }
+
+    . = ALIGN(4K);
 
     .rodata : {
+        __rodata_start = .;
         *(.rodata .rodata.*)
-        . = ALIGN(4K);
+        __rodata_end = .;
     }
+
+    . = ALIGN(4K);
 
     .data : {
+        __data_start = .;
         *(.data .data.*)
-        . = ALIGN(4K);
+        __data_end = .;
     }
 
+    . = ALIGN(4K);
+
     .bss : {
+        __bss_start = .;
         *(.bss .bss.*)
-        . = ALIGN(4K);
+        __bss_end = .;
     }
 
     /* end of the binary */
