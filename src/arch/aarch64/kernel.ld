@@ -5,32 +5,26 @@ SECTIONS
 {
     . = __kernel_start;
 
-    .text : {
+    .text : ALIGN(4K) {
         __text_start = .;
         *(.text.boot)
         *(.text .text.*)
         __text_end = .;
     }
 
-    . = ALIGN(4K);
-
-    .rodata : {
+    .rodata : ALIGN(4K) {
         __rodata_start = .;
         *(.rodata .rodata.*)
         __rodata_end = .;
     }
 
-    . = ALIGN(4K);
-
-    .data : {
+    .data : ALIGN(4K) {
         __data_start = .;
         *(.data .data.*)
         __data_end = .;
     }
 
-    . = ALIGN(4K);
-
-    .bss : {
+    .bss : ALIGN(4K) {
         __bss_start = .;
         *(.bss .bss.*)
         __bss_end = .;
