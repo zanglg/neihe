@@ -138,6 +138,16 @@ __primary_switched:
 	ldr x0, =__kernel_start
 	mov sp, x0
 
+	// zero the bss segment
+	adr x0, __bss_start
+	adr x1, __bss_end
+	sub x1, x1, x0
+
+clean_bss_loop:
+	str  xzr, [x0], #8
+	subs x1, x1, #8
+	b.gt clean_bss_loop
+
 	// Set [M] bit and enable the MMU
 	mrs x0, sctlr_el1
 	orr x0, x0, #1
